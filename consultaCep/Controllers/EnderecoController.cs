@@ -12,6 +12,8 @@ using Newtonsoft.Json;
 
 namespace consultaCep.Controllers
 {
+    [Route("api/Endereco")]
+    [ApiController]
     public class EnderecoController : Controller
     {
         private readonly EnderecoDAO _enderecoDAO;
@@ -32,7 +34,7 @@ namespace consultaCep.Controllers
         [HttpPost]
         public IActionResult CadastrarEndereco(Endereco e)
         {
-            //string url = @"https://api.postmon.com.br/v1/cep/" + e.Cep ;
+            
             string url = @"https://viacep.com.br/ws/"+e.Cep+"/json/";
             WebClient client = new WebClient();
             string resultado = client.DownloadString(url);
@@ -45,6 +47,41 @@ namespace consultaCep.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet("Enderecos")]
+        public String ListAll()
+        {
+            return JsonConvert.SerializeObject(_enderecoDAO.Listar());
+        }
+
+        [HttpGet("Enderecos/{cep}")]
+        public String ListCep(string cep)
+        {
+            List<Endereco> allEnderecos = _enderecoDAO.Listar();
+            List<Endereco> enderecos = new List<Endereco>();
+            foreach (var endereco in allEnderecos)
+            {
+                if (endereco.Cep.Equals(cep))
+                {
+                    enderecos.Add(endereco);
+                }
+            }
+            return JsonConvert.SerializeObject(enderecos);
+        }
+
+        [HttpGet("EnderecosPorEstado/{uf}")]
+        public String ListEstado(string uf)
+        {
+            List<Endereco> allEnderecos = _enderecoDAO.Listar();
+            List<Endereco> enderecos = new List<Endereco>();
+            foreach (var endereco in allEnderecos)
+            {
+                if (endereco.Uf.Equals(uf))
+                {
+                    enderecos.Add(endereco);
+                }
+            }
+            return JsonConvert.SerializeObject(enderecos);
+        }
 
     }
 }

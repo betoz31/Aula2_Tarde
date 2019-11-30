@@ -9,7 +9,7 @@ namespace consultaCep.DAO
     public class EnderecoDAO
     {
         private readonly Context _context;
-        private object[] Id;
+        //private object[] Id;
 
         public EnderecoDAO(Context context)
         {
