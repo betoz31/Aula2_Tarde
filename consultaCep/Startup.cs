@@ -36,6 +36,7 @@ namespace consultaCep
 
             services.AddScoped<EnderecoDAO>();
             services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("DbEnderecos")));
+            //services.AddDbContext<Context>(options => options.UseInMemoryDatabase(Endereco));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -49,7 +50,7 @@ namespace consultaCep
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Endereco/Index");
             }
 
             app.UseStaticFiles();
